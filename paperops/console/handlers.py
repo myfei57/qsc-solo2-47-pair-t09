@@ -212,6 +212,33 @@ def press_model(console: Any, request: Request) -> Response:
     )
 
 
+def pressloop_state(console: Any, request: Request) -> Response:
+    return json_response(console.services.pressloop.view().to_dict())
+
+
+def pressloop_model(console: Any, request: Request) -> Response:
+    pressloop = console.services.pressloop
+    measured = request.param("measured")
+    reading = float(measured) if measured is not None else console.services.press.dryness()
+    target = request.param("target")
+    aim = float(target) if target is not None else None
+    body = pressloop.preview(reading, aim)
+    body["history"] = pressloop.history().to_dict()
+    return json_response(body)
+
+
+def pressloop_cycles(console: Any, request: Request) -> Response:
+    pressloop = console.services.pressloop
+    rows = pressloop.cycles(request.integer("limit", 0))
+    return json_response(
+        {
+            "count": len(rows),
+            "cycles": rows,
+            "history": pressloop.history().to_dict(),
+        }
+    )
+
+
 def dry_state(console: Any, request: Request) -> Response:
     return json_response(console.services.dry.view().to_dict())
 

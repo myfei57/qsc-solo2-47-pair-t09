@@ -4,6 +4,12 @@ PRESS_DEWATER = "press/dewater"
 PRESS_STATE = "press/state"
 PRESS_GAIN = "press/gain"
 
+PRESSLOOP_CONFIG = "pressloop/config"
+PRESSLOOP_TARGET = "pressloop/target"
+PRESSLOOP_ANCHOR = "pressloop/anchor"
+PRESSLOOP_CYCLE = "pressloop/cycle"
+PRESSLOOP_STATUS = "pressloop/status"
+
 DRY_PROCEDURE = "dry/procedure"
 DRY_SPEED = "dry/speed"
 DRY_CURVE = "dry/curve"

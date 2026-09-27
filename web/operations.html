@@ -44,6 +44,17 @@
     <button onclick="post('/api/dry/heat', {target: num('heat')})">升温到目标</button>
   </section>
   <section>
+    <h1>干度闭环</h1>
+    <label>干度目标 <input id="drynessTarget" value="45"></label>
+    <label>实测干度 <input id="drynessMeasured" value="43"></label>
+    <label>限时(拍) <input id="loopLimit" value="10"></label>
+    <button onclick="post('/api/pressloop/target', {target: num('drynessTarget'), limit_ticks: num('loopLimit')})">设定目标</button>
+    <button onclick="post('/api/pressloop/cycle', {measured: num('drynessMeasured')})">跑一个周期</button>
+    <button onclick="post('/api/pressloop/resume', {})">退回后重投</button>
+    <button onclick="get('/api/pressloop/state')">闭环状态</button>
+    <button onclick="get('/api/pressloop/cycles')">周期记录</button>
+  </section>
+  <section>
     <h1>施胶与停机</h1>
     <button onclick="post('/api/glue/roll', {lifted: true})">抬施胶辊</button>
     <button onclick="post('/api/glue/stop', {})">停胶泵</button>
@@ -80,6 +91,10 @@
     const out = document.getElementById("out");
     async function post(path, body) {
       const response = await fetch(path, {method: "POST", body: JSON.stringify(body)});
+      out.textContent = path + " -> " + response.status + "\n" + JSON.stringify(await response.json(), null, 2);
+    }
+    async function get(path) {
+      const response = await fetch(path);
       out.textContent = path + " -> " + response.status + "\n" + JSON.stringify(await response.json(), null, 2);
     }
   </script>

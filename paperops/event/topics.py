@@ -3,6 +3,11 @@
 TOPIC_DEWATER_PERSISTED = "press.dewater.persisted"
 TOPIC_PRESS_LOAD = "press.load.changed"
 
+TOPIC_PRESSLOOP_CONFIG = "pressloop.config.changed"
+TOPIC_PRESSLOOP_TARGET = "pressloop.target.set"
+TOPIC_PRESSLOOP_CYCLE = "pressloop.cycle.recorded"
+TOPIC_PRESSLOOP_FALLBACK = "pressloop.fallback"
+
 TOPIC_DRY_PROCEDURE = "dry.procedure.changed"
 TOPIC_DRY_SPEED_SET = "dry.speed.set"
 TOPIC_DRY_CURVE_SET = "dry.curve.set"
@@ -36,6 +41,10 @@ TOPIC_SNAPSHOT = "state.snapshot"
 ALL_TOPICS: tuple[str, ...] = (
     TOPIC_DEWATER_PERSISTED,
     TOPIC_PRESS_LOAD,
+    TOPIC_PRESSLOOP_CONFIG,
+    TOPIC_PRESSLOOP_TARGET,
+    TOPIC_PRESSLOOP_CYCLE,
+    TOPIC_PRESSLOOP_FALLBACK,
     TOPIC_DRY_PROCEDURE,
     TOPIC_DRY_SPEED_SET,
     TOPIC_DRY_CURVE_SET,

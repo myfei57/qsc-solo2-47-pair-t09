@@ -92,6 +92,40 @@ def press_gain(console: Any, request: Request) -> Response:
     )
 
 
+def pressloop_configure(console: Any, request: Request) -> Response:
+    body = request.body()
+    return json_response(
+        console.services.pressloop.configure(
+            body["nips"],
+            body.get("tolerance", 0.3),
+            int(body.get("limit_ticks", 10)),
+            body.get("max_step", 8.0),
+            body["confirmation_id"],
+        )
+    )
+
+
+def pressloop_target(console: Any, request: Request) -> Response:
+    body = request.body()
+    limit = body.get("limit_ticks")
+    return json_response(
+        console.services.pressloop.set_target(
+            body["target"], int(limit) if limit is not None else None
+        )
+    )
+
+
+def pressloop_cycle(console: Any, request: Request) -> Response:
+    measured = request.body().get("measured")
+    if measured is None:
+        measured = console.services.press.dryness()
+    return json_response(console.services.pressloop.cycle(float(measured)))
+
+
+def pressloop_resume(console: Any, request: Request) -> Response:
+    return json_response(console.services.pressloop.resume())
+
+
 def dry_begin(console: Any, request: Request) -> Response:
     return json_response(console.services.dry.begin())
 

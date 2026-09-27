@@ -12,6 +12,7 @@ def test_view_aggregates_every_subsystem(services):
     view = services.state.view().to_dict()
     assert set(view["subsystems"]) == {
         "press",
+        "pressloop",
         "dry",
         "steam",
         "glue",
@@ -52,6 +53,7 @@ def test_verdict_history_is_reported_per_subject(console, services):
         "broke.handling",
         "glue.concentration",
         "press.dryness",
+        "pressloop.convergence",
         "steam.pressure",
         "water.moisture",
     )
