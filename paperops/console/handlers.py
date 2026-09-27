@@ -191,6 +191,44 @@ def press_state(console: Any, request: Request) -> Response:
     return json_response(console.services.press.view().to_dict())
 
 
+def loop_state(console: Any, request: Request) -> Response:
+    return json_response(console.services.loop.view().to_dict())
+
+
+def loop_sessions(console: Any, request: Request) -> Response:
+    rows = console.services.loop.sessions()
+    session = request.param("session")
+    if session:
+        rows = tuple(row for row in rows if row["session_id"] == session)
+    status = request.param("status")
+    if status:
+        rows = tuple(row for row in rows if row["status"] == status)
+    return json_response({"count": len(rows), "sessions": list(rows)})
+
+
+def loop_steps(console: Any, request: Request) -> Response:
+    rows = console.services.loop.steps(request.param("session"))
+    return json_response({"count": len(rows), "steps": list(rows)})
+
+
+def loop_model(console: Any, request: Request) -> Response:
+    loop = console.services.loop
+    press = console.services.press
+    error = request.number("error", 1.0)
+    correction = loop.correction_for(error, press.gain())
+    return json_response(
+        {
+            "correction": correction,
+            "distributed": loop.distribute_for(correction, request.number("max_step", 50.0)),
+            "settled": loop.settled([error], request.number("tolerance", 0.5), 1),
+            "gain": press.gain(),
+            "nips": list(loop.nips()),
+            "loads": loop.view().to_dict()["loads"],
+            "stable": loop.view().to_dict()["stable"],
+        }
+    )
+
+
 def press_model(console: Any, request: Request) -> Response:
     press = console.services.press
     width = request.number("width", 6.0)

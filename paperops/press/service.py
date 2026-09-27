@@ -63,6 +63,9 @@ class PressService:
     def dryness(self) -> float:
         return self._dryness
 
+    def gain(self) -> float:
+        return self._gain
+
     def persisted(self) -> bool:
         return self._persisted
 

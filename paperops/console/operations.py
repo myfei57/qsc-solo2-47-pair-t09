@@ -92,6 +92,32 @@ def press_gain(console: Any, request: Request) -> Response:
     )
 
 
+def loop_engage(console: Any, request: Request) -> Response:
+    body = request.body()
+    options = {
+        key: body[key]
+        for key in ("tolerance", "time_limit", "settle", "max_step")
+        if key in body
+    }
+    return json_response(
+        console.services.loop.engage(console.services.press, body["target"], **options)
+    )
+
+
+def loop_step(console: Any, request: Request) -> Response:
+    return json_response(
+        console.services.loop.step(console.services.press, request.body()["measured"])
+    )
+
+
+def loop_revert(console: Any, request: Request) -> Response:
+    return json_response(
+        console.services.loop.revert(
+            console.services.press, request.body().get("reason", "operator fallback")
+        )
+    )
+
+
 def dry_begin(console: Any, request: Request) -> Response:
     return json_response(console.services.dry.begin())
 

@@ -31,6 +31,11 @@ TOPIC_WATER_MAP = "water.map.rebuilt"
 TOPIC_WATER_PROFILE = "water.profile.changed"
 TOPIC_WATER_SAMPLE = "water.sample.added"
 
+TOPIC_LOOP_ENGAGED = "press.loop.engaged"
+TOPIC_LOOP_STEP = "press.loop.step"
+TOPIC_LOOP_CONVERGED = "press.loop.converged"
+TOPIC_LOOP_REVERTED = "press.loop.reverted"
+
 TOPIC_SNAPSHOT = "state.snapshot"
 
 ALL_TOPICS: tuple[str, ...] = (
@@ -57,5 +62,9 @@ ALL_TOPICS: tuple[str, ...] = (
     TOPIC_WATER_MAP,
     TOPIC_WATER_PROFILE,
     TOPIC_WATER_SAMPLE,
+    TOPIC_LOOP_ENGAGED,
+    TOPIC_LOOP_STEP,
+    TOPIC_LOOP_CONVERGED,
+    TOPIC_LOOP_REVERTED,
     TOPIC_SNAPSHOT,
 )

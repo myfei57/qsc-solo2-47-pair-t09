@@ -12,6 +12,7 @@ from .console.router import Console
 from .dry import DryService
 from .event import EventBus
 from .glue import GlueService
+from .loop import PressLoopService
 from .press import PressService
 from .reel import ReelService
 from .state import StateService
@@ -35,6 +36,7 @@ class Services:
     artifacts: Artifacts
     batches: BatchRegistry
     press: PressService
+    loop: PressLoopService
     dry: DryService
     steam: SteamService
     glue: GlueService
@@ -49,6 +51,7 @@ class Services:
     def reload(self) -> None:
         """Restore every subsystem from the committed part of the stream."""
         self.press.reload()
+        self.loop.reload(self.press)
         self.steam.reload()
         self.dry.reload()
         self.glue.reload()
@@ -69,6 +72,7 @@ def build_services(config: Config) -> Services:
     batches = BatchRegistry(journal)
 
     press = PressService(journal, bus, clock, generations, confirmations)
+    loop = PressLoopService(journal, bus, clock, IdSequence("loop"))
     steam = SteamService(journal, bus, clock, generations, confirmations)
     dry = DryService(journal, bus, clock, generations, confirmations)
     glue = GlueService(journal, bus, clock, generations, confirmations)
@@ -85,6 +89,7 @@ def build_services(config: Config) -> Services:
         artifacts,
         subsystems={
             "press": press,
+            "loop": loop,
             "dry": dry,
             "steam": steam,
             "glue": glue,
@@ -95,6 +100,7 @@ def build_services(config: Config) -> Services:
         },
         histories={
             "press.dryness": press.history(),
+            "press.loop": loop.history(),
             "steam.pressure": steam.history(),
             "glue.concentration": glue.history(),
             "broke.handling": broke.history(),
@@ -112,6 +118,7 @@ def build_services(config: Config) -> Services:
         artifacts=artifacts,
         batches=batches,
         press=press,
+        loop=loop,
         dry=dry,
         steam=steam,
         glue=glue,

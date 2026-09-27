@@ -31,6 +31,10 @@ WATER_MAP = "water/map"
 WATER_PROFILE = "water/profile"
 WATER_SAMPLES = "water/samples"
 
+LOOP_STATE = "loop/state"
+LOOP_SESSION = "loop/session"
+LOOP_STEPS = "loop/steps"
+
 VERSION_PREFIX = "version/"
 CONFIRMATION_PREFIX = "confirmation/"
 ARTIFACT_PREFIX = "artifact/"

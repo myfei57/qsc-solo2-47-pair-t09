@@ -34,6 +34,7 @@
     const api = async (path) => (await fetch(path)).json();
     const rows = [
       ["压榨脱水落盘", (s) => s.press.persisted],
+      ["干度闭环收敛", (s) => s.loop.last_status === "converged"],
       ["蒸汽已排水", (s) => s.steam.drained],
       ["蒸汽阀开启", (s) => s.steam.valve_open],
       ["干燥曲线就绪", (s) => s.dry.generation > 0],
